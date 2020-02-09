@@ -1,10 +1,10 @@
 package com.learning.rickandmortyquiz
 
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import com.learning.rickandmortyquiz.databinding.ActivityMainBinding
 
 /**
  * Created by Martin Mallet on 2020-01-14
@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
  */
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
 
     //convenience function that creates a list
     //knows what to return with inference
@@ -45,14 +47,14 @@ class MainActivity : AppCompatActivity() {
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        findViewById<Button>(R.id.next_button).setOnClickListener{
+        binding.nextButton.setOnClickListener{
             questionIndex = (questionIndex + 1) % 20
             updateView()
         }
 
-        findViewById<Button>(R.id.previews_button).setOnClickListener{
+        binding.previewsButton.setOnClickListener{
 
             if(questionIndex == 0){
                 questionIndex = questionBank.size - 1
@@ -62,11 +64,11 @@ class MainActivity : AppCompatActivity() {
             updateView()
         }
 
-        findViewById<Button>(R.id.true_button).setOnClickListener{
+        binding.trueButton.setOnClickListener{
             checkAnswer(true)
         }
 
-        findViewById<Button>(R.id.false_button).setOnClickListener{
+        binding.falseButton.setOnClickListener{
             checkAnswer(false)
         }
 
@@ -77,8 +79,7 @@ class MainActivity : AppCompatActivity() {
      * Updates the view according to the question in the  list
      */
     private fun updateView(){
-        findViewById<TextView>(R.id.question_text)
-            .setText(questionBank[questionIndex].resourceId)
+        binding.questionText.setText(questionBank[questionIndex].resourceId)
     }
 
     /**
