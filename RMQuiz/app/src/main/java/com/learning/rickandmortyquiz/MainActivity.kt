@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.learning.rickandmortyquiz.databinding.ActivityMainBinding
 
 /**
@@ -47,6 +49,12 @@ class MainActivity : AppCompatActivity() {
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //navigation
+        val navController = this.findNavController(R.id.myNavHostFragment)
+        NavigationUI.setupActionBarWithNavController(this,navController)
+
+        //rest of the logic
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         binding.nextButton.setOnClickListener{
@@ -92,5 +100,11 @@ class MainActivity : AppCompatActivity() {
         } else {
             Toast.makeText(applicationContext, "Wrong!", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    //Adding the up button
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = this.findNavController(R.id.myNavHostFragment)
+        return navController.navigateUp()
     }
 }
