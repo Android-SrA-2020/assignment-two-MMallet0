@@ -2,13 +2,13 @@ package com.learning.quiztake2
 
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.ui.NavigationUI
 import com.learning.quiztake2.databinding.FragmentMainBinding
 
 /**
@@ -52,8 +52,18 @@ class MainFragment : Fragment() {
             container, false
         )
 
-        //rest of the logic
+        //To turn on the option menu
+        setHasOptionsMenu(true)
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        navController = Navigation.findNavController(view)
+
+        //rest of the logic
         binding.nextButton.setOnClickListener{
             questionIndex = (questionIndex + 1) % 20
             updateView()
@@ -78,10 +88,21 @@ class MainFragment : Fragment() {
         }
 
         updateView()
-
-        return binding.root
     }
 
+    //inflating the option menu
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+
+        inflater.inflate(R.menu.overflow_menu, menu)
+    }
+
+    //hooking up the option button
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return NavigationUI.onNavDestinationSelected(
+            item, navController
+        ) || super.onOptionsItemSelected(item)
+    }
 
     /**
      * Updates the view according to the question in the  list
@@ -101,5 +122,7 @@ class MainFragment : Fragment() {
             Toast.makeText(activity, "Wrong!", Toast.LENGTH_SHORT).show()
         }
     }
+
+
 
 }
