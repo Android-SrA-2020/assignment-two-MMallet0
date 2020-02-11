@@ -1,27 +1,24 @@
-package com.learning.rickandmortyquiz
+package com.learning.quiztake2
+
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
-import androidx.navigation.ui.NavigationUI
-import com.learning.rickandmortyquiz.databinding.ActivityMainBinding
+import com.learning.quiztake2.databinding.FragmentMainBinding
 
 /**
- * Created by Martin Mallet on 2020-01-14
- * Assignment 1
+ * A simple [Fragment] subclass.
  */
+class MainFragment : Fragment() {
 
-class MainActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: FragmentMainBinding
     private lateinit var navController: NavController
 
-    //convenience function that creates a list
-    //knows what to return with inference
-    //in this case it will return a list of question object
     private val questionBank = listOf(
         Question(R.string.question_1, false),
         Question(R.string.question_2, true),
@@ -46,18 +43,16 @@ class MainActivity : AppCompatActivity() {
 
     private var questionIndex = 0
 
-    /**
-     * Initial creation of the app
-     */
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        //navigation
-        navController = this.findNavController(R.id.myNavHostFragment)
-        NavigationUI.setupActionBarWithNavController(this,navController)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main,
+            container, false
+        )
 
         //rest of the logic
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         binding.nextButton.setOnClickListener{
             questionIndex = (questionIndex + 1) % 20
@@ -83,7 +78,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         updateView()
+
+        return binding.root
     }
+
 
     /**
      * Updates the view according to the question in the  list
@@ -98,15 +96,10 @@ class MainActivity : AppCompatActivity() {
     private fun checkAnswer(answer: Boolean) {
 
         if(answer == questionBank[questionIndex].answer){
-            Toast.makeText(applicationContext, "Correct!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, "Correct!", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(applicationContext, "Wrong!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, "Wrong!", Toast.LENGTH_SHORT).show()
         }
     }
 
-    //Adding the up button
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = this.findNavController(R.id.myNavHostFragment)
-        return navController.navigateUp()
-    }
 }
