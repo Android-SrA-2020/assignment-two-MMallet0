@@ -97,11 +97,9 @@ class MainFragment : Fragment() {
 
             cheatButton.setOnClickListener{
 
-                val bundle = bundleOf("index" to questionIndex)
-
-                //Passing the bundle to the navigator which will pass it to the next fragment
+                //using safe args to send the question index
                 navController.navigate(
-                    R.id.action_mainFragment_to_cheatFragment , bundle
+                    MainFragmentDirections.actionMainFragmentToCheatFragment(questionIndex)
                 )
             }
         }

@@ -51,8 +51,10 @@ class CheatFragment : Fragment() {
             container, false
         )
 
-        //having these 2 here crashes the app
-        questionIndex = arguments!!.getInt("index")
+        //getting the value with safe args
+        var args = MainFragmentArgs.fromBundle(arguments!!)
+        questionIndex = args.index
+
         binding.questionLabel.setText(questionBank[questionIndex].resourceId)
 
         var answer = "false"
@@ -78,14 +80,5 @@ class CheatFragment : Fragment() {
 
         return binding.root
     }
-
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-
-        outState.putInt("currentIndex", questionIndex)
-    }
-
-
 
 }
