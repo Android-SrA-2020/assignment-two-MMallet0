@@ -4,6 +4,7 @@ package com.learning.quiztake2
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
@@ -63,32 +64,58 @@ class MainFragment : Fragment() {
 
         navController = Navigation.findNavController(view)
 
-        //rest of the logic
-        binding.nextButton.setOnClickListener{
-            questionIndex = (questionIndex + 1) % 20
-            updateView()
+        //having these 2 here crashes the app
+        if(savedInstanceState != null){
+            questionIndex = savedInstanceState.getInt("currentIndex", 0)
         }
 
-        binding.previewsButton.setOnClickListener{
 
-            if(questionIndex == 0){
-                questionIndex = questionBank.size - 1
-            } else {
-                questionIndex = (questionIndex - 1)
+        //Buttons Logic
+        binding.apply{
+            nextButton.setOnClickListener{
+                questionIndex = (questionIndex + 1) % 20
+                updateView()
             }
-            updateView()
-        }
 
-        binding.trueButton.setOnClickListener{
-            checkAnswer(true)
-        }
+            previewsButton.setOnClickListener{
 
-        binding.falseButton.setOnClickListener{
-            checkAnswer(false)
+                if(questionIndex == 0){
+                    questionIndex = questionBank.size - 1
+                } else {
+                    questionIndex = (questionIndex - 1)
+                }
+                updateView()
+            }
+
+            trueButton.setOnClickListener{
+                checkAnswer(true)
+            }
+
+            falseButton.setOnClickListener{
+                checkAnswer(false)
+            }
+
+            cheatButton.setOnClickListener{
+
+                val bundle = bundleOf("index" to questionIndex)
+
+                //Passing the bundle to the navigator which will pass it to the next fragment
+                navController.navigate(
+                    R.id.action_mainFragment_to_cheatFragment , bundle
+                )
+            }
         }
 
         updateView()
+
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putInt("currentIndex", questionIndex)
+    }
+
 
     //inflating the option menu
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -105,7 +132,7 @@ class MainFragment : Fragment() {
     }
 
     /**
-     * Updates the view according to the question in the  list
+     * Updates the view according to the question in the list
      */
     private fun updateView(){
         binding.questionText.setText(questionBank[questionIndex].resourceId)

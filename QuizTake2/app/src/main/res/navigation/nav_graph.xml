@@ -6,7 +6,13 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.learning.quiztake2.MainFragment"
-        android:label="MainFragment" />
+        android:label="MainFragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_cheatFragment"
+            app:destination="@id/cheatFragment" />
+        <argument android:name="index"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/aboutFragment"
         android:name="com.learning.quiztake2.AboutFragment"
@@ -14,5 +20,12 @@
     <fragment
         android:id="@+id/cheatFragment"
         android:name="com.learning.quiztake2.CheatFragment"
-        android:label="CheatFragment" />
+        android:label="CheatFragment" >
+        <action
+            android:id="@+id/action_cheatFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+        <argument
+            android:name="index"
+            app:argType="integer" />
+    </fragment>
 </navigation>

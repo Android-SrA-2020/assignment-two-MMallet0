@@ -11,7 +11,7 @@
 
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/question_label"
             android:layout_width="327dp"
             android:layout_height="54dp"
             android:layout_marginTop="36dp"
@@ -23,7 +23,7 @@
             tools:text="Question text" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/answer_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="140dp"
@@ -34,7 +34,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView4"
+            app:layout_constraintTop_toBottomOf="@+id/question_label"
             tools:text="@string/text_true" />
 
         <TextView
@@ -47,25 +47,27 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+            app:layout_constraintTop_toBottomOf="@+id/answer_label" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/cheat_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="52dp"
             android:text="Cheat"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView6"
-            app:layout_constraintTop_toBottomOf="@+id/textView6" />
+            app:layout_constraintTop_toBottomOf="@+id/textView6"
+            app:layout_constraintVertical_bias="0.0" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/cancel_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="92dp"
             android:text="@android:string/cancel"
-            app:layout_constraintBaseline_toBaselineOf="@+id/button"
-            app:layout_constraintStart_toEndOf="@+id/button" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/cheat_button"
+            app:layout_constraintStart_toEndOf="@+id/cheat_button" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
